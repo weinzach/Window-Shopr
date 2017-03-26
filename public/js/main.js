@@ -1,13 +1,16 @@
 /**
  * jTinder initialization
  */
+ $( ".wrap1" ).hide();
+
 $("#tinderslide").jTinder({
 	// dislike callback
     onDislike: function (item) {
 	    // set the status text
 			if(item.index()==0){
 				$( ".actions" ).hide();
-				alert("OH SHIT FAM");
+				$( ".wrap" ).hide();
+				$( ".wrap1" ).show();
 							}
     },
 	// like callback
@@ -15,8 +18,8 @@ $("#tinderslide").jTinder({
 	    // set the status text
 				if(item.index()==0){
 					$( ".actions" ).hide();
-					alert("OH SHIT FAM");
-				}
+					$( ".wrap" ).hide();
+					$( ".wrap1" ).show();				}
     },
 	animationRevertSpeed: 200,
 	animationSpeed: 400,

@@ -3,7 +3,7 @@
 
 <head>
     <% include ../partials/header %>
-    <link rel="stylesheet" type="text/css" href="css/jTinder.css">
+        <link rel="stylesheet" type="text/css" href="css/jTinder.css">
 </head>
 
 <body>
@@ -26,41 +26,49 @@
                                 <ul>
                                     <% for(var i=0; i<data.length; i++) {%>
                                         <li class="pane<%= i %>">
-                                          <% if (data[i].img==''){ data[i].img= "images/default.jpg"} %>
-                                            <div class="img" style='background: url("<%= data[i].img %>") no-repeat scroll center center;background-size: cover;'></div>
-                                            <div>
-                                                <%= data[i].name %>
-                                            </div>
-                                            <div class="like"></div>
-                                            <div class="dislike"></div>
+                                            <% if (data[i].img==''){ data[i].img= "images/default.jpg"} %>
+                                                <div class="img" style='background: url("<%= data[i].img %>") no-repeat scroll center center;background-size: cover;'></div>
+                                                <div>
+                                                    <%= data[i].name %>
+                                                </div>
+                                                <div class="like"></div>
+                                                <div class="dislike"></div>
                                         </li>
                                         <% } %>
                                 </ul>
                             </div>
                             <!-- end jtinder container -->
                         </div>
-                        <!-- end padding container -->
-                        <!-- jTinder trigger by buttons  -->
-                        <div class="actions">
-                            <a href="#" class="dislike"><i></i></a>
-                            <a href="#" class="like"><i></i></a>
+                        <div class="wrap1">
+                            <center>
+                                <img class="responsive-img" style="width: 150px;" src="http://bestanimations.com/Animals/Mammals/Cats/cats/cute-kitty-animated-gif-25.gif" />
+                                <h1>Welp! You're all out of products to shop...</h1>
+                                <a href="/shop"><button class="btn">Back to Shop</button></a>
+                            </center>
                         </div>
-
-                        <!-- jTinder status text  -->
-                        <div id="status"></div>
-
-                        <!-- jQuery lib -->
-                        <script type="text/javascript" src="js/jquery.min.js"></script>
-                        <!-- transform2d lib -->
-                        <script type="text/javascript" src="js/jquery.transform2d.js"></script>
-                        <!-- jTinder lib -->
-                        <script type="text/javascript" src="js/jquery.jTinder.js"></script>
-                        <!-- jTinder initialization script -->
-                        <script type="text/javascript" src="js/main.js"></script>
-
                     </div>
+                    <!-- end padding container -->
+                    <!-- jTinder trigger by buttons  -->
+                    <div class="actions">
+                        <a href="#" class="dislike"><i></i></a>
+                        <a href="#" class="like"><i></i></a>
+                    </div>
+
+                    <!-- jTinder status text  -->
+                    <div id="status"></div>
+
+                    <!-- jQuery lib -->
+                    <script type="text/javascript" src="js/jquery.min.js"></script>
+                    <!-- transform2d lib -->
+                    <script type="text/javascript" src="js/jquery.transform2d.js"></script>
+                    <!-- jTinder lib -->
+                    <script type="text/javascript" src="js/jquery.jTinder.js"></script>
+                    <!-- jTinder initialization script -->
+                    <script type="text/javascript" src="js/main.js"></script>
+
                 </div>
             </div>
+        </div>
 
         </div>
         </div>
