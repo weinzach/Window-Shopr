@@ -1,6 +1,7 @@
 //Module dependencies.
 var mongoose = require('mongoose');
 var uuidV1 = require('uuid/v1');
+var path = require('path');
 
 //Connect to Database
 mongoose.connection.on('open', function(ref) {
@@ -32,12 +33,14 @@ exports.productDetail = ProductDetail
 
 function createProduct( productObject )
 {
+    var uniqueID = uuidV1()
     var newProduct = new Product({
         productName: productObject.name,
-        productId: uuidV1(),
-        productDesc: productObject.desc
-        productImage: "./listing"
+        productId: uniqueID,
+        productDesc: productObject.desc,
+        productImage: uniqueID + ".jpg"
     });
+    console.log("image_dir: " + newProduct.productImage);
 
     newProduct.save(function(err, newProduct){
         if (err) return console.error(err);

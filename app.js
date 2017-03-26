@@ -12,6 +12,7 @@ var CircularJSON = require('circular-json');
 var config = require("./crypto.json");
 var Product = require("./Product.js");
 
+
 //Load Necessary Config Files
 var node_algorithm = config["algorithm"];
 var node_password = config["password"];
@@ -180,8 +181,10 @@ app.get('/productlist', function(req, res){
             productJSON.push({
                 "productName": product.productName,
                 "productDesc": product.productDesc,
-                "productId": product.productId
+                "productId": product.productId,
+                "productImage": path.join(__dirname, '/listing_images/') + product.productImage
             });
+
         }); // foreach
         res.json( productJSON );
     })
