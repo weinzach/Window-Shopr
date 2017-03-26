@@ -29,6 +29,7 @@
                 <div class="row">
                     <div class="col s12 m12">
                         <!-- start padding container -->
+                        <% if (fail != true) { %>
                         <div class="wrap">
                           <center>
                             <h1></h1>
@@ -36,12 +37,12 @@
                             <!-- start jtinder container -->
                             <div id="tinderslide">
                                 <ul>
-                                    <% for(var i=1; i<data.length; i++) {%>
+                                    <% for(var i=0; i<data[1].length; i++) {%>
                                         <li class="pane<%= i %>">
-                                            <% if (data[i].img==''){ data[i].img= "../../images/default.jpg"} %>
-                                                <div class="img" style='background: url("<%= data[i].img %>") no-repeat scroll center center;background-size: cover;'></div>
+                                            <% if (data[1][i].productImage==''){ data[1][i].productImage= "../../images/default.jpg"} %>
+                                                <div class="img" style='background: url("<%= data[1][i].productImage %>") no-repeat scroll center center;background-size: cover;'></div>
                                                 <div>
-                                                    <%= data[i].name %>
+                                                    <%= data[1][i].productName %>
                                                 </div>
                                                 <div class="like"></div>
                                                 <div class="dislike"></div>
@@ -58,7 +59,17 @@
                                 <a href="/shop"><button class="btn">Back to Shop</button></a>
                             </center>
                         </div>
+                        <% } else{ %>
+                        <div class="wrap1">
+                            <center>
+                                <img class="responsive-img" style="width: 150px;" src="http://bestanimations.com/Animals/Mammals/Cats/cats/cute-kitty-animated-gif-25.gif" />
+                                <h1>Welp! You're all out of products in the category (<%= data[0].query %>) to shop...</h1>
+                                <a href="/shop"><button class="btn">Back to Shop</button></a>
+                            </center>
+                        </div>
+                        <% } %>
                     </div>
+                    <% if (fail != true) { %>
                     <!-- end padding container -->
                     <!-- jTinder trigger by buttons  -->
                     <div class="actions">
@@ -77,7 +88,7 @@
                     <script type="text/javascript" src="../../js/jquery.jTinder.js"></script>
                     <!-- jTinder initialization script -->
                     <script type="text/javascript" src="../../js/main.js"></script>
-
+                    <% } %>
                 </div>
             </div>
         </div>

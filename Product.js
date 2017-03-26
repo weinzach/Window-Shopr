@@ -11,7 +11,7 @@ mongoose.connection.on('error', function(err) {
     console.log('Could not connect to mongo server!');
     console.log(err);
 });
-mongoose.connect('mongodb://localhost/Vamos');
+mongoose.connect('mongodb://localhost/Shopr');
 
 //Product Schema
 var Schema = mongoose.Schema;
@@ -22,7 +22,7 @@ var ProductDetail = new Schema({
     productDesc: String, // production description
     productCategory: String,
     productImage: String, // path to image
-    productCity: String,    // product 
+    productCity: String,    // product
     productState: String // product state
 
 }, {
@@ -41,7 +41,7 @@ function createProduct( productObject )
         productName: productObject.name,
         productId: uniqueID,
         productDesc: productObject.desc,
-        productCategory: productObject.category, 
+        productCategory: productObject.category,
         productImage: uniqueID + ".jpg",
         productCity: productObject.city,
         productState: productObject.state
@@ -51,9 +51,9 @@ function createProduct( productObject )
     newProduct.save(function(err, newProduct){
         if (err) return console.error(err);
     });
-    
+
     console.log("Adding " + productObject.name + " to DB...");
     console.log("Product Added!")
-    
+
 }
 exports.createProduct = createProduct
