@@ -17,6 +17,7 @@ $("#tinderslide").jTinder({
     onLike: function (item) {
 	    // set the status text
 				if(item.index()==0){
+          alert("Alerted Seller of Like!");
 					$( ".actions" ).hide();
 					$( ".wrap" ).hide();
 					$( ".wrap1" ).show();				}
