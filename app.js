@@ -177,13 +177,23 @@ app.get('/registerfail2', function(req, res, next) {
 app.get('/shop', function(req, res, next) {
     if (req.user) {
         res.render('pages/main', {
-            page_name: "login",
-            fail: true,
+            page_name: "shop",
+            fail: false,
             login: true
         });
     } else {
         res.redirect('/login');
     }
+});
+
+app.get('/swipe', function(req, res, next) {
+    res.render('pages/swipe', {
+        page_name: "swipe",
+        fail: false,
+        login: true,
+        data : [{name: "hi1",img:""},{name: "hi1",img:"https://i.kinja-img.com/gawker-media/image/upload/s--pEKSmwzm--/c_scale,fl_progressive,q_80,w_800/1414228815325188681.jpg"}]
+    });
+
 });
 
 app.get('/logout', function(req, res) {

@@ -1,28 +1,51 @@
-$(document).ready(function(){
+var container = $('.container');
+var cardOne = $('.one');
 
-    $(".buddy").on("swiperight",function(){
-      $(this).addClass('rotate-left').delay(700).fadeOut(1);
-      $('.buddy').find('.status').remove();
+// Animates the card on a button click
+function animateOnClick(answer) {
+  var el = $('.cards .card:first-child');
+  var next = $(el).next('.card');
 
-      $(this).append('<div class="status like">Like!</div>');      
-      if ( $(this).is(':last-child') ) {
-        $('.buddy:nth-child(1)').removeClass ('rotate-left rotate-right').fadeIn(300);
-       } else {
-          $(this).next().removeClass('rotate-left rotate-right').fadeIn(400);
-       }
-    });  
-
-   $(".buddy").on("swipeleft",function(){
-    $(this).addClass('rotate-right').delay(700).fadeOut(1);
-    $('.buddy').find('.status').remove();
-    $(this).append('<div class="status dislike">Dislike!</div>');
-
-    if ( $(this).is(':last-child') ) {
-     $('.buddy:nth-child(1)').removeClass ('rotate-left rotate-right').fadeIn(300);
-      alert('OUPS');
-     } else {
-        $(this).next().removeClass('rotate-left rotate-right').fadeIn(400);
-    } 
+  ThrowPropsPlugin.to(el, {throwProps:{
+      x: {end: answer == "Yes" ? 100 : -100},
+      y: {end: 0}
+    }, ease:Strong.easeOut, onComplete: animateCard(el, next)
   });
+}
 
+// Populates the next card
+function populateCard(el) {
+  $(el).css({"opacity": "0", "display" : "flex"})
+       .animate({ opacity: 1.0 });
+  initDraggable(el);
+}
+
+// Animates the card if we have another one
+function animateCard(el, nextCard) {
+  $(el).animate({ opacity: 0.0, display: "none" }, 100, function() {
+        if(nextCard) {
+          $(el).remove();
+          populateCard(nextCard);
+        }
+  });
+}
+
+function initDraggable(card) {
+  Draggable.create(card, {
+  type: "x",
+  bounds: container,
+  throwProps: true,
+  lockAxis:true,
+  /* snap: [0, 0], */
+  onDragEnd: function() {
+    var next = $(this.target).next('.card');
+    if(this.x > 150 || this.x < -150) {
+      animateCard(card, next);
+    } else {
+      ThrowPropsPlugin.to(card, {throwProps:{x: {end: 0}, y:{end: 0}}, ease:Strong.easeOut });
+    }
+  }
 });
+}
+
+initDraggable(cardOne);
