@@ -176,13 +176,17 @@ app.get('/productlist', function(req, res){
             console.log( product.productName );
             console.log( product.productDesc );
             console.log( product.productId );
+            console.log( product.productState );
             console.log( "-----------------------------\n" );
             
             productJSON.push({
                 "productName": product.productName,
                 "productDesc": product.productDesc,
+                "productCategory": product.productCategory,
                 "productId": product.productId,
-                "productImage": path.join(__dirname, '/listing_images/') + product.productImage
+                "productImage": path.join(__dirname, '/listing_images/') + product.productImage,
+                "productCity": product.productCity,
+                "productState": product.productState
             });
 
         }); // foreach
@@ -201,8 +205,11 @@ app.get('/product/:id', function(req, res){
         var result = {
             "productName": product[0].productName,
             "productDesc": product[0].productDesc,
+            "productCategory": product[0].productCategory,
             "productId": product[0].productId,
-            "productImage": path.join(__dirname, '/listing_images/') + product[0].productImage
+            "productImage": path.join(__dirname, '/listing_images/') + product[0].productImage,
+            "productCity": product[0].productCity,
+            "productState": product[0].productState
         }
         
         console.log("Product " + req.params.id + " found!");
@@ -221,7 +228,10 @@ app.post('/product', function(req, res){
 
     var newProduct = {
         "name": req.body.name,
-        "desc": req.body.desc
+        "desc": req.body.desc,
+        "category": req.body.category,
+        "city": req.body.city,
+        "state": req.body.state
     };
     // var CreateProduct = Product.createProduct
 
@@ -239,8 +249,11 @@ app.delete('/product/:id', function(req, res){
         if(err) return handlError(err);
         console.log("Product " + req.params.id + " removed!");
    });
-   // console.log("debug0");
-   res.end("Ended");
+   
+   // TODO
+   // Add a redirect here.
+
+   res.end("Deleted");
 });
 
 

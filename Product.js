@@ -20,7 +20,10 @@ var ProductDetail = new Schema({
     productName: String,  // product name
     productId: String,   // product id
     productDesc: String, // production description
-    productImage: String // path to image
+    productCategory: String,
+    productImage: String, // path to image
+    productCity: String,    // product 
+    productState: String // product state
 
 }, {
     collection: 'productInfo'
@@ -38,7 +41,10 @@ function createProduct( productObject )
         productName: productObject.name,
         productId: uniqueID,
         productDesc: productObject.desc,
-        productImage: uniqueID + ".jpg"
+        productCategory: productObject.category, 
+        productImage: uniqueID + ".jpg",
+        productCity: productObject.city,
+        productState: productObject.state
     });
     console.log("image_dir: " + newProduct.productImage);
 
