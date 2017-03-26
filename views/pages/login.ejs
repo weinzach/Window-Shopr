@@ -1,22 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <% include ../partials/header %>
+  <% include ../partials/header %>
+  <style>
+    .input-field input[type=date]:focus + label,
+    .input-field input[type=text]:focus + label,
+    .input-field input[type=email]:focus + label,
+    .input-field input[type=password]:focus + label {
+      color: #e91e63;
+    }
+    .input-field input[type=date]:focus,
+    .input-field input[type=text]:focus,
+    .input-field input[type=email]:focus,
+    .input-field input[type=password]:focus {
+      border-bottom: 2px solid #e91e63;
+      box-shadow: none;
+    }
+  </style>
 </head>
 
 <body>
-    <header>
-        <% include ../partials/nav %>
-    </header>
-
+  <header></header>
+    <div class="section"></div>
     <main>
         <center>
+            <img class="responsive-img" style="width: 150px;" src="http://bestanimations.com/Animals/Mammals/Cats/cats/cute-kitty-animated-gif-25.gif" />
             <div class="section"></div>
-            <h5 class="greem-text">Please, login into your account</h5>
+
+            <h5 class="grey-text">Please, login into your account</h5>
             <div class="section"></div>
+
             <div class="container">
                 <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+
 
                     <form class="col s12" action="/auth" method="post">
                         <div class='row'>
@@ -29,8 +45,8 @@
 
                         <div class='row'>
                             <div class='input-field col s12'>
-                                <input type='text' name='username' id='username' />
-                                <label for='username'>Enter your username</label>
+                                <input class='validate' type='email' name='username' id='username' />
+                                <label for='email'>Enter your email</label>
                             </div>
                         </div>
 
@@ -44,30 +60,22 @@
                         <br />
                         <center>
                             <div class='row'>
-                                <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect green'>Login</button>
+                                <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect grey'>Login</button>
                             </div>
                         </center>
                     </form>
                 </div>
             </div>
+            <a href="./register">Create account</a>
         </center>
 
         <div class="section"></div>
         <div class="section"></div>
     </main>
 
-
-    <footer class="page-footer green">
-        <% include ../partials/footer %>
-    </footer>
-
-
-    <!--  Scripts-->
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js "></script>
-    <script src="js/materialize.js "></script>
-    <script src="js/init.js "></script>
-    <script type="text/javascript " src="./js/socket.io.js "></script>
-
+    <footer></footer>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 </body>
 
 </html>

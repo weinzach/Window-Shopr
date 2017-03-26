@@ -42,7 +42,7 @@ mongoose.connection.on('error', function(err) {
     console.log('Could not connect to mongo server!');
     console.log(err);
 });
-mongoose.connect('mongodb://localhost/Vamos');
+mongoose.connect('mongodb://localhost/Shoppr');
 var Schema = mongoose.Schema;
 
 // all environments
@@ -74,8 +74,10 @@ if ('development' == app.get('env')) {
 
 //User Schema
 var UserDetail = new Schema({
-    username: String,
+    email: String,
     password: String,
+    name: String,
+    birthday: String,
     type: String
 }, {
     collection: 'userInfo'
@@ -95,11 +97,11 @@ passport.deserializeUser(function(user, done) {
 
 //Verify Login with User Schema
 passport.use(new LocalStrategy(
-    function(username, password, done) {
+    function(email, password, done) {
 
         process.nextTick(function() {
             UserDetails.findOne({
-                    'username': username
+                    'email': email
                 },
                 function(err, user) {
                     if (err) {
@@ -123,17 +125,64 @@ passport.use(new LocalStrategy(
 
 app.get('/login', function(req, res, next) {
     if (req.user) {
-        res.redirect('/admin');
+        res.redirect('/');
     } else {
-      res.render('pages/login', {page_name:"login", fail: false});
+        res.render('pages/login', {
+            page_name: "login",
+            fail: false,
+            login: false
+        });
     }
 });
 
 app.get('/loginfailed', function(req, res, next) {
     if (req.user) {
-        res.redirect('/admin');
+        res.redirect('/');
     } else {
-      res.render('pages/login', {page_name:"login", fail: true});
+        res.render('pages/login', {
+            page_name: "login",
+            fail: true,
+            login: false
+        });
+    }
+});
+
+app.get('/register', function(req, res, next) {
+    res.render('pages/register', {
+        page_name: "register",
+        fail: 0,
+        login: false
+    });
+
+});
+
+app.get('/registerfail1', function(req, res, next) {
+    res.render('pages/register', {
+        page_name: "register",
+        fail: 1,
+        login: false
+    });
+
+});
+
+app.get('/registerfail2', function(req, res, next) {
+    res.render('pages/register', {
+        page_name: "register",
+        fail: 2,
+        login: false
+    });
+
+});
+
+app.get('/shop', function(req, res, next) {
+    if (req.user) {
+        res.render('pages/main', {
+            page_name: "login",
+            fail: true,
+            login: true
+        });
+    } else {
+        res.redirect('/login');
     }
 });
 
@@ -144,23 +193,69 @@ app.get('/logout', function(req, res) {
 
 app.get('/', function(req, res, next) {
     sess = req.session;
-    res.render('pages/index', {page_name:"home"});
-});
-
-app.get('/browser', function(req, res, next) {
     if (req.user) {
-      res.render('pages/browser',  {page_name:"browse"});
-    }
-    else{
-    res.redirect('/login'); //Can fire before session is destroyed?
+        res.render('pages/main', {
+            page_name: "login",
+            fail: true,
+            login: true
+        });
+    } else {
+        res.render('pages/main', {
+            page_name: "login",
+            fail: true,
+            login: false
+        });
     }
 });
 
 app.post('/auth',
     passport.authenticate('local', {
-        successRedirect: '/admin',
+        successRedirect: '/',
         failureRedirect: '/loginfailed'
     }));
+
+app.post('/adduser', function(req, res) {
+  var formData = req.body;
+  for (var key in formData) {
+    if (formData.hasOwnProperty(key)) {
+      if(formData[key]==""){
+        res.redirect('/registerfail1');
+      };
+    }
+  }
+  console.log(formData.email);
+  UserDetails.findOne({
+          'email': formData.email
+      },
+      function(err, user) {
+          if (err) {
+              console.log(err);
+          }
+          if (!user) {
+            var pass = encrypt(formData.password);
+            var fullName = formData.fname+" "+formData.lname;
+            var usrName = formData.email;
+            var bday = formData.month+"/"+formData.day+"/"+formData.year;
+            var newUser = new UserDetails({
+              email: usrName,
+              password: pass,
+              name: fullName,
+              birthday: bday,
+              type: 'user'
+            });
+            newUser.save(function(err, newUser) {
+                if (err) return console.error(err);
+                else{
+                  res.redirect('/login');
+                }
+            });
+           }
+          else{
+              res.redirect('/registerfail2');
+          }
+      });
+});
+
 
 //Create Server Instance on Defined Port
 var server = http.createServer(app).listen(app.get('port'), function() {

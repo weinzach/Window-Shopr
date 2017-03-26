@@ -31,13 +31,15 @@ mongoose.connection.on('error', function(err) {
     console.log('Could not connect to mongo server!');
     console.log(err);
 });
-mongoose.connect('mongodb://localhost/Vamos');
+mongoose.connect('mongodb://localhost/Shoppr');
 
 //User Schema
 var Schema = mongoose.Schema;
 var UserDetail = new Schema({
-    username: String,
+    email: String,
     password: String,
+    name: String,
+    birthday: String,
     type: String
 }, {
     collection: 'userInfo'
@@ -70,9 +72,11 @@ prompt('Enter Username:', function(input) {
     prompt('Enter Password:', function(input) {
         pass = encrypt(input);
         var newUser = new UserDetails({
-            username: usrName,
-            password: pass,
-            type: 'user'
+          email: usrName,
+          password: pass,
+          name: "Admin",
+          birthday: "1/1/2017",
+          type: 'admin'
         });
         newUser.save(function(err, newUser) {
             if (err) return console.error(err);
