@@ -31,7 +31,7 @@ mongoose.connection.on('error', function(err) {
     console.log('Could not connect to mongo server!');
     console.log(err);
 });
-mongoose.connect('mongodb://localhost/Shoppr');
+mongoose.connect('mongodb://localhost/Shopr');
 
 //User Schema
 var Schema = mongoose.Schema;
