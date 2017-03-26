@@ -176,7 +176,7 @@ app.get('/registerfail2', function(req, res, next) {
 
 app.get('/shop', function(req, res, next) {
     if (req.user) {
-        res.render('pages/main', {
+        res.render('pages/shop', {
             page_name: "shop",
             fail: false,
             login: true
@@ -186,14 +186,26 @@ app.get('/shop', function(req, res, next) {
     }
 });
 
-app.get('/swipe', function(req, res, next) {
-    res.render('pages/swipe', {
-        page_name: "swipe",
-        fail: false,
-        login: true,
-        data : [{name: "hi1",img:""},{name: "hi1",img:"https://i.kinja-img.com/gawker-media/image/upload/s--pEKSmwzm--/c_scale,fl_progressive,q_80,w_800/1414228815325188681.jpg"}]
-    });
-
+app.get('/swipe/:id', function(req, res, next) {
+    var id = req.params.id; //or use req.param('id')
+    if (req.user) {
+        res.render('pages/swipe', {
+            page_name: "swipe",
+            fail: false,
+            login: true,
+            data: [{
+                query: id
+            }, {
+                name: "hi1",
+                img: ""
+            }, {
+                name: "hi1",
+                img: "https://i.kinja-img.com/gawker-media/image/upload/s--pEKSmwzm--/c_scale,fl_progressive,q_80,w_800/1414228815325188681.jpg"
+            }]
+        });
+    } else {
+        res.redirect('/login');
+    }
 });
 
 app.get('/logout', function(req, res) {
@@ -225,45 +237,43 @@ app.post('/auth',
     }));
 
 app.post('/adduser', function(req, res) {
-  var formData = req.body;
-  for (var key in formData) {
-    if (formData.hasOwnProperty(key)) {
-      if(formData[key]==""){
-        res.redirect('/registerfail1');
-      };
+    var formData = req.body;
+    for (var key in formData) {
+        if (formData.hasOwnProperty(key)) {
+            if (formData[key] == "") {
+                res.redirect('/registerfail1');
+            };
+        }
     }
-  }
-  console.log(formData.email);
-  UserDetails.findOne({
-          'email': formData.email
-      },
-      function(err, user) {
-          if (err) {
-              console.log(err);
-          }
-          if (!user) {
-            var pass = encrypt(formData.password);
-            var fullName = formData.fname+" "+formData.lname;
-            var usrName = formData.email;
-            var bday = formData.month+"/"+formData.day+"/"+formData.year;
-            var newUser = new UserDetails({
-              email: usrName,
-              password: pass,
-              name: fullName,
-              birthday: bday,
-              type: 'user'
-            });
-            newUser.save(function(err, newUser) {
-                if (err) return console.error(err);
-                else{
-                  res.redirect('/login');
-                }
-            });
-           }
-          else{
-              res.redirect('/registerfail2');
-          }
-      });
+    UserDetails.findOne({
+            'email': formData.email
+        },
+        function(err, user) {
+            if (err) {
+                console.log(err);
+            }
+            if (!user) {
+                var pass = encrypt(formData.password);
+                var fullName = formData.fname + " " + formData.lname;
+                var usrName = formData.email;
+                var bday = formData.month + "/" + formData.day + "/" + formData.year;
+                var newUser = new UserDetails({
+                    email: usrName,
+                    password: pass,
+                    name: fullName,
+                    birthday: bday,
+                    type: 'user'
+                });
+                newUser.save(function(err, newUser) {
+                    if (err) return console.error(err);
+                    else {
+                        res.redirect('/login');
+                    }
+                });
+            } else {
+                res.redirect('/registerfail2');
+            }
+        });
 });
 
 

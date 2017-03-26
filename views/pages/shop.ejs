@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/header %>
+</head>
+
+<body>
+    <header>
+        <% include ../partials/nav %>
+    </header>
+    <script src="../js/shop.js"></script>
+    <main>
+        <div class="container">
+            <div class="section">
+
+                <!--   Icon Section   -->
+                <div class="row">
+                    <div class="col s12 m12">
+                        <h1 class="header center teal-text text-lighten-2"><img src="./images/kitty.png" class="responsive-img"></h1>
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input placeholder=" EnterCity" id="city" name="city" type="text" class="validate">
+                                    <label for="city">Enter City</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input placeholder="Enter State" id="state" name="state" type="text" class="validate">
+                                    <label for="state">Enter State</label>
+                                </div>
+                            </div>
+                            <h4>Choose a category</h4>
+                            <p>
+                                <input type="radio" name="cat" id="tv" />
+                                <label for="tv">TV</label>
+                            </p>
+                            <p>
+                                <input type="radio" name="cat" id="housing" />
+                                <label for="housing">Housing</label>
+                            </p>
+                            <p>
+                                <input class="with-gap" type="radio" name="cat" id="pets" />
+                                <label for="pets">Pets</label>
+                            </p>
+                            <a class="btn" onclick="goTo()">Submit</a>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+    <footer class="page-footer grey darken-3">
+        <% include ../partials/footer %>
+    </footer>
+
+
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="js/materialize.js"></script>
+    <script src="js/init.js"></script>
+    <script>
+    </script>
+
+</body>
+
+</html>

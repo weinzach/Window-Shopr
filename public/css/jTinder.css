@@ -1,8 +1,8 @@
 
 /* Wrapper with padding */
 .wrap  {
-    height: 300px;
-    padding: 5%;
+    height: 480px;
+    padding-bottom: 60px;
 }
 
 #tinderslide {
