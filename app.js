@@ -201,7 +201,8 @@ app.get('/product/:id', function(req, res){
         var result = {
             "productName": product[0].productName,
             "productDesc": product[0].productDesc,
-            "productId": product[0].productId
+            "productId": product[0].productId,
+            "productImage": path.join(__dirname, '/listing_images/') + product[0].productImage
         }
         
         console.log("Product " + req.params.id + " found!");
