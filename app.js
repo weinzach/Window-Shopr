@@ -7,8 +7,10 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var socketio = require('socket.io');
 var ejs = require('ejs');
+var CircularJSON = require('circular-json');
 
 var config = require("./crypto.json");
+var Product = require("./Product.js");
 
 //Load Necessary Config Files
 var node_algorithm = config["algorithm"];
@@ -155,6 +157,88 @@ app.get('/browser', function(req, res, next) {
     res.redirect('/login'); //Can fire before session is destroyed?
     }
 });
+
+
+// Routing for Products
+app.get('/productlist', function(req, res){
+    // Should list all products... for testing
+    var productDetail = Product.productDetail
+    // console.log(Product.toString);
+    ProductTest = mongoose.model('productInfo', productDetail);
+    console.log("Display all products")
+    
+    
+    products = ProductTest.find(function(err, products){
+        if(err) return console.log(err);
+        var productJSON = []
+        products.forEach(function(product) {
+            console.log( product.productName );
+            console.log( product.productDesc );
+            console.log( product.productId );
+            console.log( "-----------------------------\n" );
+            
+            productJSON.push({
+                "productName": product.productName,
+                "productDesc": product.productDesc,
+                "productId": product.productId
+            });
+        }); // foreach
+        res.json( productJSON );
+    })
+});
+
+// Retreive a single Product
+app.get('/product/:id', function(req, res){
+    var productDetail = Product.productDetail
+    ProductTest = mongoose.model('productInfo', productDetail);
+
+    ProductTest.find({ productId: req.params.id}, function(err, product){
+        if(err) return handlError(err);
+        if (product.length == 0) return res.send("Error 404: No quote found.");
+        var result = {
+            "productName": product[0].productName,
+            "productDesc": product[0].productDesc,
+            "productId": product[0].productId
+        }
+        
+        console.log("Product " + req.params.id + " found!");
+        console.log(product);
+        res.json( result );
+   });
+});
+
+app.post('/product', function(req, res){
+    if(!req.body.hasOwnProperty('name') ||
+        !req.body.hasOwnProperty('desc')){
+
+        res.statusCode = 400;
+        return res.send('Error 400: Post syntax incorrect.');
+    }
+
+    var newProduct = {
+        "name": req.body.name,
+        "desc": req.body.desc
+    };
+    // var CreateProduct = Product.createProduct
+
+    Product.createProduct( newProduct );
+    res.redirect('/productlist');
+    // res.end("Added");
+
+});
+
+app.delete('/product/:id', function(req, res){
+   var productDetail = Product.productDetail
+   
+   ProductTest = mongoose.model('productInfo', productDetail);
+   ProductTest.remove({ productId: req.params.id}, function(err){
+        if(err) return handlError(err);
+        console.log("Product " + req.params.id + " removed!");
+   });
+   // console.log("debug0");
+   res.end("Ended");
+});
+
 
 app.post('/auth',
     passport.authenticate('local', {
